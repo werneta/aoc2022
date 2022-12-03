@@ -1,20 +1,9 @@
 #!/usr/bin/env lua
 
-elf_rock = "A"
-elf_paper = "B"
-elf_scissors = "C"
+require "day02"
 
-me_rock = "X"
-me_paper = "Y"
-me_scissors = "Z"
-
-rock_score = 1
-paper_score = 2
-scissor_score = 3
-
-lose_score = 0
-draw_score = 3
-win_score = 6
+elf_map = {A = Plays.ROCK, B = Plays.PAPER, C = Plays.SCISSORS}
+me_map = {X = Plays.ROCK, Y = Plays.PAPER, Z = Plays.SCISSORS}
 
 score = 0
 
@@ -24,31 +13,18 @@ file = assert(io.open(fname, "r"))
 
 game = file:read("*line")
 repeat
-    elf = game:sub(1,1)
-    me = game:sub(3,3)
+    elf = elf_map[game:sub(1,1)]
+    me = me_map[game:sub(3,3)]
 
-    if (me == me_rock) then
-        score = score + rock_score
-    elseif (me == me_paper) then
-        score = score + paper_score
-    elseif (me == me_scissors) then
-        score = score + scissor_score
+    score = score + score_map[me]
+
+    if draws(me, elf) then
+        score = score + score_map.draw
     end
 
-    if (((me == me_rock) and (elf == elf_rock)) or
-        ((me == me_paper) and (elf == elf_paper)) or
-        ((me == me_scissors) and (elf == elf_scissors))) then
-
-        score = score + draw_score
+    if wins(me, elf) then
+        score = score + score_map.win
     end
-
-    if (((me == me_rock) and (elf == elf_scissors)) or
-        ((me == me_paper) and (elf == elf_rock)) or
-        ((me == me_scissors) and (elf == elf_paper))) then
-
-        score = score + win_score
-    end
-
 
     game = file:read("*line")
 until game == nil
