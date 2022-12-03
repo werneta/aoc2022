@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 
+require "day03"
+
 fname = arg[1]
 file = assert(io.open(fname, "r"))
 
@@ -13,12 +15,7 @@ repeat
 
     for c in first:gmatch(".") do
         if second:find(c) then
-            if ("a" <= c) and (c <= "z") then
-                prio = c:byte() - ("a"):byte() + 1
-            else
-                prio = c:byte() - ("A"):byte() + 27
-            end
-            sum = sum + prio
+            sum = sum + get_priority(c)
             break
         end
     end
