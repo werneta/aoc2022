@@ -46,7 +46,7 @@ function day05(fname, keep_order)
             -- Remove values from the right location in the source and append to
             -- the destination
             for i = 1, num do
-                table.insert(to, #to + 1, table.remove(from, from_idx))
+                table.insert(to, table.remove(from, from_idx))
             end
         end
 
